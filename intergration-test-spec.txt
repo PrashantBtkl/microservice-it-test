@@ -1,0 +1,36 @@
+Intergration Test Spec
+
+testing for user, cart service
+
+1. USER
+Case 1 : EXPECTED
+	step 1: Create User
+			POST http://user/customers
+			{"username":"foobar","password":"123","email":"1@mail.com","firstName":"foo","lastName":"bar"}
+	step 2: Get User ID
+			this will be generated from response
+	step 3  Assert response with username
+			"foobar" == username( GET http://user/customers/{:id} ) 
+
+Case 2 : NOT EXPECTED
+	if GET http://user/customers/{:id} gives error
+
+2. CART
+case 1 : EXPECTED
+	check if item added to cart for given item_id:
+		step 1: ADD TO CART
+			POST http://carts/carts
+				'{"id":"510a0d7e-8e83-4193-b483-e27e09ddc34d"}'
+		step 2: for the user id from previous
+			GET http://carts/carts/{:id}/items
+				RESPONSE [{"id":"620e5d8e4aa14f00081bee4c","itemId":"510a0d7e-8e83-4193-b483-e27e09ddc34d","quantity":1,"unitPrice":15.0}]
+		step 3:
+			assert the item ids
+case 2 : NOT EXPECTED
+		Same procedure as above but assert with "[]"
+		If the assert equals to this then the test has failed
+
+
+Cleanup DB by deleting user and cart
+	DELETE http://customers/customers/{:id}
+	DELETE http://carts/carts/{:id}
