@@ -71,6 +71,8 @@ def main():
 	username = "foobar1"
 	item_id = "510a0d7e-8e83-4193-b483-e27e09ddc34d"
 	quantity = 1
+	total_test = 3
+	passed_test = 0
 
 	#TEST USER SERVICE
 	test_user_id = create_user(username)
@@ -78,6 +80,7 @@ def main():
 	try:
 		assert test_username, username
 		print("Success test : username match")
+		passed_test += 1
 	except AssertionError:
 		print("Failed test : username match")
 
@@ -86,13 +89,15 @@ def main():
 	try:
 		assert cart["itemId"], item_id
 		print("Success test : cart item_id matched")
+		passed_test += 1
 		assert cart["quantity"], quantity
 		print("Success test : cart item quantity matched")
+		passed_test += 1
 	except AssertionError:
 		print("Failed test : adding item to cart")
 
 
-	print("----- all test cases passed --------")
+	print("Test results : {}/{} passed".format(passed_test,total_test))
 	print("cleanup starting")
 	#CLEANUP
 	delete_customer(test_user_id)
